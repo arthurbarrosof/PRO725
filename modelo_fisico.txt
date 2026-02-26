@@ -1,0 +1,32 @@
+-- Criação da tabela de Equipamentos
+CREATE TABLE EQUIPAMENTO (
+    ID_Equipamento VARCHAR(10) PRIMARY KEY,
+    Nome_Equipamento VARCHAR(100) NOT NULL,
+    Setor VARCHAR(50)
+);
+
+-- Criação da tabela de Peças
+CREATE TABLE PECA (
+    ID_Peca VARCHAR(10) PRIMARY KEY,
+    Nome_Peca VARCHAR(100) NOT NULL,
+    Qtd_Estoque INT DEFAULT 0
+);
+
+-- Criação da tabela de Ordens de Serviço
+CREATE TABLE Ordem_Servico (
+    ID_OS INT PRIMARY KEY,
+    Data_Abertura DATE,
+    Descricao VARCHAR(255),
+    ID_Equipamento VARCHAR(10),
+    FOREIGN KEY (ID_Equipamento) REFERENCES EQUIPAMENTO(ID_Equipamento)
+);
+
+-- Criação da tabela associativa N:N (Itens da Ordem de Serviço)
+CREATE TABLE Item_OS (
+    ID_OS INT,
+    ID_Peca VARCHAR(10),
+    Qtd_Usada INT NOT NULL,
+    PRIMARY KEY (ID_OS, ID_Peca),
+    FOREIGN KEY (ID_OS) REFERENCES Ordem_Servico(ID_OS),
+    FOREIGN KEY (ID_Peca) REFERENCES PECA(ID_Peca)
+);
